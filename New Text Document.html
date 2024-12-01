@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Drop</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+<style>
+/* Style for the sidebar */
+.sidebar {
+    height: 100vh;
+    padding: 20px;
+}
+
+.sidebar .nav-link {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #ff4c4c;
+    border-radius: 5px;
+}
+
+/* Style for main content image */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.main-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Navbar icon styling */
+.navbar .fas {
+    font-size: 1.5em;
+}
+
+</style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+        <a class="navbar-brand text-white" href="#">Blood Drop</a>
+        <div class="ml-auto">
+            <i class="fas fa-user-circle text-white mr-3"></i>
+            <i class="fas fa-bell text-white"></i>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Sidebar Menu -->
+            <div class="col-md-3 sidebar bg-danger">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Request</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Donor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Notification</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Update Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">Events</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 main-content">
+                <img src="https://images.unsplash.com/photo-1584452964155-ef139340f0db?q=80&w=1797&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Blood Donation" class="img-fluid">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Font Awesome -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

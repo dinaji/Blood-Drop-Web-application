@@ -1,0 +1,73 @@
+
+
+.sidebar {
+   
+    width: 25vh;
+    height: 65vh;
+   padding-top: 3.5vh;
+   padding-bottom: 3.5vh;
+    margin-left: 5vh;
+    border: 2px solid;
+    border-radius: 20px;
+}
+
+.sidebar .nav-link {
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #e96077;
+    border-radius: 10px;
+}
+.container-fluid{
+
+    color: #af4337;
+    width: 50%;
+    height: 300%;
+    margin-top: 50px;
+    margin-left: 10px;
+}
+/* Style for main content image */
+
+
+/* Navbar icon styling */
+.navbar .fas {
+    font-size: 10px;
+}
+.navbar-brand {
+    color:aliceblue;
+    font-weight:bold;
+    padding-left: 40px;
+    font-size: 30px;
+    margin-top: 5px;
+    height: 25px;
+    margin-bottom: 30px;
+}
+
+.ml-auto{
+    height: 40px;
+}
+
+.bg-danger{
+    margin-top: 0px;
+
+}
+.bg-danger.navbar-brand{
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color:white;
+}
+.navigation-top{
+    list-style-type: none;
+    margin-left: 0vh;
+   padding-left: 0;
+  }
+  
+ .navigation-top{
+    display: inline;
+    margin-left: 0px;
+    padding-left: 0px;
+  }

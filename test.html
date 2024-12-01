@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Icon</title>
+    <link rel="stylesheet" href="style.css">
+
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.notification-container {
+    position: relative;
+    margin: 20px;
+}
+
+.notification-icon {
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+}
+
+#notification-count {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+    position: absolute;
+    top: -8px;
+    right: -10px;
+}
+
+.notification-list {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 200px;
+    top: 40px;
+    right: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.notification-list ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.notification-list ul li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-list ul li:last-child {
+    border-bottom: none;
+}
+
+.notification-list ul li:hover {
+    background-color: #f1f1f1;
+}
+
+.notification-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="notification-container">
+        <div class="notification-icon" onclick="toggleNotifications()">
+            🔔 <span id="notification-count">3</span>
+        </div>
+        <div id="notification-list" class="notification-list">
+            <ul>
+                <li onclick="viewNotification(1)">New message from John</li>
+                <li onclick="viewNotification(2)">System update available</li>
+                <li onclick="viewNotification(3)">Meeting reminder at 3 PM</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="notification-details" class="notification-details"></div>
+
+    <script>
+        function toggleNotifications() {
+    const notificationList = document.getElementById('notification-list');
+    notificationList.style.display = notificationList.style.display === 'block' ? 'none' : 'block';
+}
+
+function viewNotification(id) {
+    const notificationDetails = document.getElementById('notification-details');
+    const details = {
+        1: 'John sent you a message: "Hey, let’s catch up soon!"',
+        2: 'There is a system update available. Please update your system to the latest version.',
+        3: 'Reminder: You have a meeting scheduled at 3 PM with the team.',
+    };
+
+    notificationDetails.innerHTML = `<h2>Notification Details</h2><p>${details[id]}</p>`;
+    notificationDetails.style.display = 'block';
+
+    // Hide notification list after selecting one
+    document.getElementById('notification-list').style.display = 'none';
+}
+
+    </script> 
+    
+</body>
+</html>

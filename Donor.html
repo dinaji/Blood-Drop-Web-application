@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Drop - Donors</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center/cover;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .header {
+            background-color: #f0311c;
+            color: white;
+            padding: 5px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+            padding-left: 5px;
+        }
+
+        .header .logo img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .login-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 1px;
+            height: 100%;
+            width: 1350px;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #f0311c;
+            font-weight: bold;
+            background-color: #ffffff;
+        }
+
+        .input-box {
+            margin-bottom: 20px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #f0311c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        .additional-options {
+            margin-top: 10px;
+        }
+
+        .additional-options a {
+            color: #333;
+            text-decoration: none;
+            font-size: 12px;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .additional-options a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #ccc;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+        .container1 {
+            width: 50%;
+            margin: 0 auto;
+            background-color: rgb(255, 255, 255);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #d32f2f;
+        }
+
+        .btn {
+            width: 200px;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #b71c1c;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/blood-drop-logo.jpeg" alt="Blood Drop Logo">
+                <span>Blood Drop - Donors</span>
+            </div>
+        </div>
+        <div class="container1">
+            <div class="row">
+                <div class="col-11">
+                    <input type="text" id="searchbar" placeholder="Enter blood type (e.g., A+, B-, O+)" />
+                </div>
+                <div class="col-1">
+                    <center> <button class="btn" id="searchbtn">Search</button></center>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="login-form">
+            <div class="login-box">
+                <h2>Donors</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Name</th>
+                            <th>NIC</th>
+                            <th>Location</th>
+                            <th>Blood Type</th>
+                            <th>Age</th>
+                            <th>Last Donated Date</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Donate Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody2"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getDatabase, ref, child, get } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzEromIkB856Y0pVoOPQPETVLh798pbvE",
+            authDomain: "blooddropweb.firebaseapp.com",
+            databaseURL: "https://blooddropweb-default-rtdb.firebaseio.com",
+            projectId: "blooddropweb",
+            storageBucket: "blooddropweb.firebasestorage.app",
+            messagingSenderId: "572578639188",
+            appId: "1:572578639188:web:12fa36a08482122d3f6cc1"
+        };
+
+        let userslist1 = [];
+        let filteredRows = [];
+        let searchbar = document.getElementById('searchbar');
+        let searchbtn = document.getElementById('searchbtn');
+
+        const FilterRecords = () => {
+
+            let searchval = searchbar.value.toLowerCase().trim();
+            // let filteredRows = AppDonors.filter(user => user.bloodType.toString().toLowerCase().trim().includes(searchval));
+            let filteredRows = userslist.filter(user =>
+                user.bloodType.toString().toLowerCase().trim().includes(searchval) ||
+                user.name.toString().toLowerCase().trim().includes(searchval) ||
+                user.nic.toString().toLowerCase().trim().includes(searchval) ||
+                user.location.toString().toLowerCase().trim().includes(searchval) ||
+                user.age.toString().toLowerCase().trim().includes(searchval) ||
+                user.lastDonatedDate.toString().toLowerCase().trim().includes(searchval) ||
+                user.email.toString().toLowerCase().trim().includes(searchval)
+
+            );
+            sno = 0;
+            tbody.innerHTML = "";
+            filteredRows.forEach(user => {
+                AddSingleRecord(user.name, user.nic, user.location, user.bloodType, user.age, user.lastDonatedDate, user.phoneNumber, user.email, user.donateDate);
+
+            });
+        }
+
+        const SearchEmpty = () => {
+            if (searchbar.value.length < 1)
+                AddAllRecords();
+        }
+
+        const SearchEnter = event => {
+            if (event.keyCode === 13)
+                FilterRecords();
+        }
+
+
+
+
+        searchbar.addEventListener('input', SearchEmpty);
+        searchbar.addEventListener('keypress', SearchEnter);
+        searchbtn.addEventListener('click', FilterRecords);
+    
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        let userslist = [];
+        let sno = 0;
+        let tbody = document.getElementById('tbody2');
+        let buttonStates = JSON.parse(localStorage.getItem('buttonStates')) || {};
+
+        const saveButtonStates = () => {
+            localStorage.setItem('buttonStates', JSON.stringify(buttonStates));
+        };
+
+        const SelectAllDataOnce = () => {
+            const dbRef = ref(db);
+            get(child(dbRef, 'AppDonors')).then((snapshot) => {
+                userslist = [];
+                snapshot.forEach(user => {
+                    userslist.push(user.val());
+                });
+                AddAllRecords();
+            });
+        };
+
+        const AddSingleRecord = (name, nic, location, bloodType, age, lastDonatedDate, phoneNumber, email, donateDate) => {
+            let trow = document.createElement('tr');
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            let td4 = document.createElement('td');
+            let td5 = document.createElement('td');
+            let td6 = document.createElement('td');
+            let td7 = document.createElement('td');
+            let td8 = document.createElement('td');
+            let td9 = document.createElement('td');
+            let td10 = document.createElement('td');
+            let td11 = document.createElement('td');
+
+            td1.innerHTML = ++sno;
+            td2.innerHTML = name;
+            td3.innerHTML = nic;
+            td4.innerHTML = location;
+            td5.innerHTML = bloodType;
+            td6.innerHTML = age;
+            td7.innerHTML = lastDonatedDate;
+            td8.innerHTML = phoneNumber;
+            td9.innerHTML = email;
+            td10.innerHTML = donateDate;
+
+            let confirmBtn = document.createElement('button');
+            let doneBtn = document.createElement('button');
+
+            const id = `${name}-${nic}`;
+            if (buttonStates[id]?.confirmed) {
+                confirmBtn.textContent = "Confirmed";
+                confirmBtn.style.backgroundColor = "#c0392b";
+            } else {
+                confirmBtn.textContent = "Confirm";
+                confirmBtn.style.backgroundColor = "#f0311c";
+            }
+
+            if (buttonStates[id]?.done) {
+                doneBtn.style.backgroundColor = "green";
+                doneBtn.style.color = "white";
+            } else {
+                doneBtn.textContent = "Done";
+                doneBtn.style.backgroundColor = "#e0e0e0";
+            }
+
+            confirmBtn.onclick = () => {
+                confirmBtn.textContent = "Confirmed";
+                confirmBtn.style.backgroundColor = "#c0392b";
+                buttonStates[id] = { ...buttonStates[id], confirmed: true };
+                saveButtonStates();
+            };
+
+            doneBtn.onclick = () => {
+                doneBtn.style.backgroundColor = "green";
+                doneBtn.style.color = "white";
+                buttonStates[id] = { ...buttonStates[id], done: true };
+                saveButtonStates();
+            };
+
+            td11.appendChild(confirmBtn);
+            td11.appendChild(doneBtn);
+
+            trow.append(td1, td2, td3, td4, td5, td6, td7, td8, td9, td10, td11);
+            tbody.appendChild(trow);
+        };
+
+        const AddAllRecords = () => {
+            sno = 0;
+            tbody.innerHTML = "";
+            userslist.forEach(user => {
+                AddSingleRecord(user.name, user.nic, user.location, user.bloodType, user.age, user.lastDonatedDate, user.phoneNumber, user.email, user.donateDate);
+            });
+        };
+
+        window.onload = SelectAllDataOnce;
+    </script>
+</body>
+
+</html>

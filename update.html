@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="authGuard.js"></script>
+
+    <title>Blood Type Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background: url('background.jpg') no-repeat center center/cover;
+        }
+
+        .header {
+            background-color: #f0311c;
+            color: white;
+            padding: 5px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+            padding-left: 5px;
+        }
+
+        .header .logo img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .header .icons i {
+            font-size: 20px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #ccc;
+            padding-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ccc;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #b71c1c;
+        }
+
+        label {
+            display: inline-block;
+            font-size: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            width: 110px;
+            color: white;
+            margin-top: 50px;
+        }
+
+        input,
+        select {
+            margin-left: 20px;
+            width: 180px;
+            height: 30px;
+            font-size: 16px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        button {
+            margin-top: 20px;
+            height: 30px;
+            width: 170px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="images/blood-drop-logo.jpeg" alt="Blood Drop Logo">
+            <span>Blood Drop - Status</span>
+        </div>
+        
+    </div>
+    <label>Blood Type</label>
+    <input type="text" id="txtbt">
+    <br><br>
+
+    <label>Status</label>
+    <select id="stinput">
+
+        <option value="Available">Available</option>
+        <option value="Not Available">Not Available</option>
+    </select>
+    <br><br>
+
+    <button class="btn" id="Addbtn">Add Status</button><br><br>
+    <button class="btn" id="Deletebtn">Delete Status</button><br><br>
+    <button class="btn" id="Updatebtn">Update Status</button><br><br>
+    <button class="btn" id="viewbtn">View Status</button>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzEromIkB856Y0pVoOPQPETVLh798pbvE",
+            authDomain: "blooddropweb.firebaseapp.com",
+            databaseURL: "https://blooddropweb-default-rtdb.firebaseio.com",
+            projectId: "blooddropweb",
+            storageBucket: "blooddropweb.firebasestorage.app",
+            messagingSenderId: "572578639188",
+            appId: "1:572578639188:web:12fa36a08482122d3f6cc1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+
+        import { getDatabase, ref, child, get, set, update, remove } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+        const db = getDatabase();
+
+        let txtbt = document.getElementById('txtbt');
+        let stinput = document.getElementById('stinput');
+
+        let Addbtn = document.getElementById('Addbtn');
+        let viewbtn = document.getElementById('viewbtn');
+        let Readbtn = document.getElementById('Readbtn');
+        let Updatebtn = document.getElementById('Updatebtn');
+        let Deletebtn = document.getElementById('Deletebtn');
+
+        viewbtn.addEventListener('click',(e)=>{
+
+            alert('Please Wait....');
+         // Redirect to the home page after successful login
+         window.location.href = 'Status.html'; 
+
+        });
+        function AddData() {
+            set(ref(db, 'Storage/' + txtbt.value), {
+                BloodType: txtbt.value,
+                Status: stinput.value
+
+            }).then(() => {
+                alert("Status Added..");
+            }).catch(() => {
+                alert("Status Not Added...");
+                console.log(console.error);
+            })
+
+
+        }
+
+        function RedData(){
+            const dbRef = ref(db);
+
+            get(child(dbRef,'Storage/' + txtbt.value )).then((snapshot)=>{
+                if(snapshot.exists()){
+                    txtbt.value =snapshot.val().BloodType;
+                    stinput.value =snapshot.val().Status;
+                }
+
+                else {
+                    alert("Status does not exist..");
+                }
+            })
+            .catch((error)=>{
+                alert("Unsuccessful");
+                console.log(error);
+            })
+
+        }
+
+        function UpdateData() {
+            update(ref(db, 'Storage/' + txtbt.value), {
+                BloodType: txtbt.value,
+                Status: stinput.value
+
+            }).then(() => {
+                alert("Status Updated..");
+            }).catch(() => {
+                alert("Status Not Updated...");
+                console.log(console.error);
+            })
+
+
+        }
+
+        function DeleteData() {
+            remove(ref(db, 'Storage/' + txtbt.value) )
+            .then(() => {
+                alert("Status Removed..");
+            }).catch(() => {
+                alert("Status Not Removed...");
+                console.log(console.error);
+            })
+
+
+        }
+
+        Addbtn.addEventListener('click', AddData);
+        Updatebtn.addEventListener('click',UpdateData);
+        Deletebtn.addEventListener('click',DeleteData);
+
+    </script>
+
+</body>
+
+</html>

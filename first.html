@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Drop</title>
+    <!-- Bootstrap CSS -->
+   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="styles.css">
+
+<style type="text/css">
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: url('background.jpg') no-repeat center center/cover;
+    height: 100vh;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.header {
+    background-color: #f0311c;
+    color: white;
+    padding: 5px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 40px;
+    margin-top: 10px;
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 24px;
+    padding-left: 5px;
+}
+
+.header .logo img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.header .icons i {
+    font-size: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.navbar{
+    background: crimson;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    padding-right:15px;
+    padding-left: 15px;
+
+}
+.navdiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+} 
+.logo a{
+    margin-left: 30px;
+    font-size: 35px;
+    font-weight: 600;
+    color: white;
+}
+li{
+    list-style: none;
+    display: inline-block;
+}
+li a{
+    color: white;
+    font-size:18px ;
+    font-weight: bold;
+    margin-right: 25px;
+}
+
+.navbar a:hover {
+  background-color: #000;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+    
+  }
+}
+.split{
+    float: right;
+  background-color: #04AA6D;
+  color: white;
+  padding-left: 20px;
+  margin-left: 1000px;
+
+ 
+}
+
+
+</style>
+
+</head>
+<body>
+    <?php include 'components/user_header.php'; ?>
+<!-- Main Content -->
+
+
+<!-- Navbar -->
+<div class="container">
+    <div class="header">
+        <div class="logo">
+            <img src="images/blood-drop-logo.jpeg" alt="Blood Drop Logo">
+            <span>Blood Drop - Login</span>
+        </div>
+        <div class="icons">
+            <i class="fa fa-user"></i>
+            <i class="fa fa-bell"></i>
+        </div>
+    </div>
+    
+
+
+<div class="container-fluid">
+          
+    <div class="row">
+      
+
+        <!-- Sidebar Menu -->
+        <div class="col-md-3 sidebar bg-danger">
+            <center>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Request</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Donor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Notification</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Update Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Events</a>
+                </li>
+            </ul>
+        </center>
+        </div>
+
+        
+
+    </div>
+   
+</div>
+
+    
+    
+
+    <!-- Main Container -->
+    
+    <!-- Bootstrap JS and Font Awesome -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+</body>
+</html>

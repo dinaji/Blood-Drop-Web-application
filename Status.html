@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Drop - Status</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="authGuard.js"></script>
+
+
+
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: url('background.jpg') no-repeat center center/cover;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.header {
+    background-color: #f0311c;
+    color: white;
+    padding: 5px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 40px;
+    margin-top: 10px;
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 24px;
+    padding-left: 5px;
+}
+
+.header .logo img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.header .icons i {
+    font-size: 20px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1px;
+    height: 100%;
+    width: 1350px;
+}
+
+
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #f0311c;
+    font-weight: bold;
+    background-color: #ffffff;
+}
+
+.input-box {
+    margin-bottom: 20px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #f0311c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #c0392b;
+}
+
+.additional-options {
+    margin-top: 10px;
+}
+
+.additional-options a {
+    color: #333;
+    text-decoration: none;
+    font-size: 12px;
+    display: block;
+    margin: 5px 0;
+}
+
+.additional-options a:hover {
+    text-decoration: underline;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  background-color:#ccc;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/blood-drop-logo.jpeg" alt="Blood Drop Logo">
+                <span>Blood Drop - Status</span>
+
+
+            </div>
+            
+        </div>
+        <div class="login-form">
+            <div class="login-box">
+                <center><h2>Status</h2></center>
+                <table border="1"> 
+                    
+                    <thead> 
+                           <th>Sno</th>
+                            <th>BloodType</th>
+                             <th>Status</th> 
+                             
+                            
+                     </thead> 
+                         <tbody id="tbody4"> <!-- Rows will be dynamically added here --> 
+
+                         </tbody> 
+                        </table> 
+
+
+            </div>
+        </div>
+    </div>
+    <script type="module">
+                  
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        
+       
+        const firebaseConfig = {
+          apiKey: "AIzaSyBzEromIkB856Y0pVoOPQPETVLh798pbvE",
+          authDomain: "blooddropweb.firebaseapp.com",
+          databaseURL: "https://blooddropweb-default-rtdb.firebaseio.com",
+          projectId: "blooddropweb",
+          storageBucket: "blooddropweb.firebasestorage.app",
+          messagingSenderId: "572578639188",
+          appId: "1:572578639188:web:12fa36a08482122d3f6cc1"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        import { getDatabase, ref, child, onValue, get, set, update, remove } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+        const db = getDatabase();
+
+
+        let userslist = [];
+        let sno= 0;
+        let tbody = document.getElementById('tbody4');
+
+
+        const SelectAllDataOnce = () =>{
+            const dbRef = ref(db);
+            get(child(dbRef, 'Storage')).then((snapshot)=>{
+                userslist = [];
+                snapshot.forEach(user =>{
+                    userslist.push(user.val());
+                });
+                AddAllRecords();
+            })
+        }
+
+        const AddSingleRecord = (bloodtype, status) => {
+            let trow = document.createElement('tr');
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3= document.createElement('td');
+          
+            
+
+            td1.innerHTML = ++sno;
+            td2.innerHTML = bloodtype;
+            td3.innerHTML = status;
+           
+
+            
+            trow.append(td1,td2,td3);
+            tbody.append(trow);
+
+
+        }
+        const AddAllRecords = () => {
+            sno=0;
+            tbody.innerHTML = "";
+            userslist.forEach(user =>{
+                AddSingleRecord(user.BloodType, user.Status);
+            })
+        }
+
+        window.addEventListener('load', SelectAllDataOnce);
+
+
+
+
+
+      </script>
+
+    <script>
+        // Script to handle the login button
+document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const username = document.querySelector('input[name="username"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+    
+    // Simple validation
+    if (username && password) {
+        alert(`Logged in as ${username}`);
+    } else {
+        alert('Please enter both username and password.');
+    }
+});
+
+    </script>
+</body>
+</html>

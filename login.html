@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Drop - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script type="module" src="firebaseauth.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center/cover;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .header {
+            background-color: #f0311c;
+            color: white;
+            padding: 5px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+            padding-left: 5px;
+        }
+
+        .header .logo img {
+            width: 40px;
+          height: auto;
+            margin-right: 10px;
+        }
+
+        
+
+        .login-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #f0311c;
+        }
+
+        .input-box {
+            margin-bottom: 20px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #f0311c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #c0392b;
+        }
+
+        .additional-options {
+            margin-top: 10px;
+        }
+
+        .additional-options a {
+            color: #333;
+            text-decoration: none;
+            font-size: 12px;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .additional-options a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="images/blood-drop-logo.jpeg" alt="Blood Drop Logo">
+                <span>Blood Drop - Login</span>
+            </div>
+            
+        </div>
+        <div class="login-form">
+            <div class="login-box">
+                <h2>Login Here</h2>
+                <form action="#" id="loginForm">
+                    <div class="input-box">
+                        <input type="text" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" ID="loginUp" name="Signup_submit">Login</button>
+                </form>
+                <div class="additional-options">
+                    <a href="Forget_Password.html" id="forgetpassword">Forget Password?</a>
+                    <a href="signup_page.html">Need Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Script to handle the login button
+document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const email = document.querySelector('input[name="email]').value;
+    const password = document.querySelector('input[name="password"]').value;
+    
+    // Simple validation
+    if (email && password) {
+        alert(`Sign in as ${username}`);
+    } else {
+        alert('Please enter both email and password.');
+    }
+});
+
+    </script>
+    
+</body>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getDatabase, ref, update } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+    
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBzEromIkB856Y0pVoOPQPETVLh798pbvE",
+      authDomain: "blooddropweb.firebaseapp.com",
+      databaseURL: "https://blooddropweb-default-rtdb.firebaseio.com",
+      projectId: "blooddropweb",
+      storageBucket: "blooddropweb.appspot.com",
+      messagingSenderId: "572578639188",
+      appId: "1:572578639188:web:12fa36a08482122d3f6cc1"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth();
+
+    loginUp.addEventListener('click',(e)=>{
+
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value; 
+
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+    // Signed in 
+         const user = userCredential.user;
+            const dt= new Date();
+         update(ref(database, 'users/' + user.uid),{
+            last_login: dt,
+            
+          
+          })
+
+
+         alert('User loged in');
+         // Redirect to the home page after successful login
+         window.location.href = 'homepage.html'; // Replace with your actual home page URL
+    // ...
+        })
+        .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+
+        alert(errorMessage);
+         });
+
+    });
+   
+
+  </script>
+
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="authGuard.js"></script>
+
+    <title>Blood Drop - Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center/cover;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #f0311c;
+            color: white;
+            padding: 5px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 40px;
+            margin-top: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+
+        }
+
+       
+
+        .container {
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .add-event-btn {
+            padding: 8px 15px;
+            background-color: #f0311c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .back-button {
+            margin: 20px;
+            background-color: #f0311c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #c0392b;
+        }
+
+        .delete-button {
+            background-color: #c0392b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #a8322b;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <header>
+        <img src="images/blood-drop-logo.jpeg" alt="Blood Drop Icon" height="40">
+        <h1>Blood Drop - Events</h1>
+        <div class="user-icons">
+           
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Add Events</h2>
+        <table id="eventTable">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Venue</th>
+
+                </tr>
+            </thead>
+            <tbody id="tbody5">
+                <!-- New rows will be added here -->
+            </tbody>
+        </table>
+        <button class="add-event-btn" id="eventbtn" onclick="addNewRow()">Add Event</button>
+        <button class="add-event-btn" id="addbtn">Save Event</button>
+        
+        <center><a href="seeEvents.html" class="back-button">See Events</a></center>
+        
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getDatabase, ref, child, get, set, update, remove } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBzEromIkB856Y0pVoOPQPETVLh798pbvE",
+            authDomain: "blooddropweb.firebaseapp.com",
+            databaseURL: "https://blooddropweb-default-rtdb.firebaseio.com",
+            projectId: "blooddropweb",
+            storageBucket: "blooddropweb.firebasestorage.app",
+            messagingSenderId: "572578639188",
+            appId: "1:572578639188:web:12fa36a08482122d3f6cc1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+
+        function addNewRow() {
+            let table = document.getElementById("eventTable").getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow(table.rows.length);
+
+            let cell1 = newRow.insertCell(0);
+            let cell2 = newRow.insertCell(1);
+            let cell3 = newRow.insertCell(2);
+            let cell4 = newRow.insertCell(3); // Actions cell
+            //let cell5 = newRow.insertCell(4);
+
+            cell1.innerHTML = '<input type="text" placeholder="Event Name">';
+            cell2.innerHTML = '<input type="date">';
+            cell3.innerHTML = '<input type="time">';
+            cell4.innerHTML = '<input type="text" placeholder="Venue">';
+            // cell5.innerHTML = '<button onclick="addRow(this)">Add</button>';
+        }
+
+        function deleteRow() {
+            let row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        function addRow() {
+            let table = document.getElementById("eventTable").getElementsByTagName('tbody')[0];
+            let rows = table.getElementsByTagName('tr');
+            let lastRow = rows[rows.length - 1];
+            let cells = lastRow.getElementsByTagName('input');
+            let eventName = cells[0].value;
+            let eventDate = cells[1].value;
+            let eventTime = cells[2].value;
+            let eventVenue = cells[3].value;
+
+            if (eventName && eventDate && eventTime && eventVenue) {
+                const newEventRef = ref(db, 'events/' + eventName);
+                set(newEventRef, {
+                    event: eventName,
+                    date: eventDate,
+                    time: eventTime,
+                    venue: eventVenue
+                })
+                    .then(() => {
+                        alert('Event added successfully');
+                    })
+                    .catch((error) => {
+                        alert('Failed to add event: ' + error.message);
+                    });
+            } else {
+                alert('Please fill all fields');
+            }
+        }
+
+       /*function saveEdit() {
+             let row = btn.parentNode.parentNode; 
+             let cells = row.getElementsByTagName('input'); 
+             let eventName = cells[0].value; 
+             let eventDate = cells[1].value;
+             let eventTime = cells[2].value;
+              let eventVenue = cells[3].value; 
+              
+              if (eventName && eventDate &&  eventTime && eventVenue) { 
+                const updateEventRef = ref(db, 'events/' + eventName); 
+                update(updateEventRef, { 
+                    date: eventDate, 
+                    time: eventTime,
+                    venue: eventVenue 
+
+                }) .then(() => {
+                     alert('Event updated successfully');
+                     }) 
+                     .catch((error) => { 
+                        alert('Failed to update event: ' + error.message); 
+                    }); 
+                    cells.forEach(cell => cell.setAttribute('readonly', 'readonly')); 
+                    btn.innerHTML = 'Edit'; 
+                    btn.setAttribute('onclick', 'editRow(this)'); 
+                } else {
+                     alert('Please fill all fields'); } }*/
+
+                     
+
+
+
+
+        document.getElementById('addbtn').addEventListener('click', addRow);
+        document.getElementById('eventbtn').addEventListener('click', addNewRow);
+        document.getElementById('deletebtn').addEventListener('click', deleteRow);
+        document.getElementById('updatebtn').addEventListener('onclick', saveEdit);
+
+
+
+    </script>
+
+</body>
+
+</html>
